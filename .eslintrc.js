@@ -8,7 +8,7 @@ module.exports = {
     browser: true
   },
   extends: [
-    // 'plugin:vue/essential', // Use this if you are using Vue.js 2.x.
+    'plugin:vue/essential', // Use this if you are using Vue.js 2.x.
     'eslint:recommended',  // able to use eslint rules (https://eslint.org/docs/rules/)
   ],
   rules: {
@@ -37,6 +37,19 @@ module.exports = {
       },
       'multiline': {
         'max': 1
+      }
+    }],
+    'vue/html-closing-bracket-newline': ['error', {
+      'singleline': 'never',
+      'multiline': 'always'
+    }],
+    'vue/html-closing-bracket-spacing': ['error'],
+    'vue/html-indent': ['error'],
+    'vue/html-quotes': ['error'],
+    'vue/html-self-closing': ['error', {
+      'html': {
+        'void': 'always',
+        'normal': 'never'
       }
     }],
   },
