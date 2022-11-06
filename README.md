@@ -1,21 +1,32 @@
 # dongne-cafe-web
 
+- 개인 프론트 작업 공간
+- [dongne-cafe-api](https://github.com/beaniejoy/dongne-cafe-api) 연동
+
+<br>
+
+## Spec
+- vue-cli 2
+- tailwind css
+- vuetify
+
+<br>
+
 ## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+```bash
+$ npm install
 ```
 
-### Compiles and minifies for production
+```bash
+$ npm run serve
 ```
-npm run build
+- (dev) hot-reloads dev server
+```bash
+$ npm run build
 ```
+- (prod) packaging
 
-### Lints and fixes files
+```bash
+$ npm run lint
 ```
-npm run lint
-```
+- fix codes (eslintrc.js)
