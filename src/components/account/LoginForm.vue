@@ -5,20 +5,42 @@
         <v-col cols="12">
           <v-text-field
             label="Email"
-            :rules="[rules.required, rules.emailFormat]"
+            v-model="email"
+            hide-details="false"
             outlined
           />
         </v-col>
         <v-col cols="12">
-          <v-text-field
+          <v-text-field 
             label="Password"
-            :rules="[rules.required]"
+            v-model="password"
             :type="showPassword"
             :append-icon="toggleAppendIcon"
             @click:append="toggleShowPassword"
-            hint="At least 8 characters"
+            hide-details="false"
             outlined
           />
+        </v-col>
+        <v-col>
+          <v-alert
+            v-if="isNotAuthenticated"
+            type="error"
+            dense
+            outlined
+          >
+            {{ errorMsg }}
+          </v-alert>
+        </v-col>
+        <v-col cols="12">
+          <v-btn
+            class="white--text"
+            color="brown darken-1"
+            block
+            :disabled="checkValidation"
+            @click="signin"
+          >
+            로그인
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -26,18 +48,25 @@
 </template>
 
 <script>
+import { authenticateApi } from '@/api/auth';
+import { setCookie } from '@/utils/cookies';
+
 export default {
   data() {
     return {
+      email: null,
+      password: null,
       rules: {
-        required: value => !!value || 'Required.',
-        emailFormat: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || 'Invalid e-mail.';
+        required: (value) => value,
+        emailFormat: (value) => {
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value);
         },
-        // max: value => (value || '').length <= 20 || 'Max 20 characters',
       },
       isShowPassword: false,
+      isNotAuthenticated: false,
+      errorMsg: '', // error message
     };
   },
   computed: {
@@ -46,16 +75,55 @@ export default {
     },
     toggleAppendIcon() {
       return this.isShowPassword ? 'mdi-eye' : 'mdi-eye-off';
-    }
+    },
+    checkValidation() {
+      if (!this.rules.required(this.email) || !this.rules.required(this.password)) {
+        return true;
+      }
+
+      if (!this.rules.emailFormat(this.email)) {
+        return true;
+      }
+
+      return false;
+    },
   },
-  methods: { 
+  methods: {
     toggleShowPassword() {
       this.isShowPassword = !this.isShowPassword;
+    },
+    async signin() {
+      try {
+        const data = await this.authenticate();
+        setCookie(
+          process.env.VUE_APP_ACCESS_TOKEN_COOKIE,
+          data.accessToken,
+          60 * 60
+        );
+      } catch (e) {
+        console.error(e);
+        this.handleError(e.message);
+      }
+    },
+    async authenticate() {
+      const response = await authenticateApi({
+        email: this.email,
+        password: this.password,
+      });
+
+      this.checkError(response.data);
+
+      return response.data;
+    },
+    handleError(msg) {
+      this.isNotAuthenticated = true;
+      this.errorMsg = msg;
+    },
+    checkError(data) {
+      if (data.code >= 400) {
+        throw new Error(data.message);
+      }
     }
-  }
+  },
 };
 </script>
-
-<style>
-
-</style>

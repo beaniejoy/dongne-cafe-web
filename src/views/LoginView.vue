@@ -2,7 +2,6 @@
   <v-main class="mx-auto d-flex align-center">
     <v-card :max-width="size" elevation="6">
       <v-img
-        contain
         class="white--text align-end"
         max-height="400px"
         src="@/assets/img/main_login.jpg"
