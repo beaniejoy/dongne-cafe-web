@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/LoginView.vue');
+const HomeView = () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue');
+const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue');
+const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue');
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupView
   },
 ];
 

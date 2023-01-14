@@ -8,6 +8,7 @@
             v-model="email"
             hide-details="false"
             outlined
+            dense
           />
         </v-col>
         <v-col cols="12">
@@ -19,14 +20,14 @@
             @click:append="toggleShowPassword"
             hide-details="false"
             outlined
+            dense
           />
         </v-col>
-        <v-col>
+        <v-col v-if="isNotAuthenticated">
           <v-alert
-            v-if="isNotAuthenticated"
             type="error"
-            dense
             outlined
+            dense
           >
             {{ errorMsg }}
           </v-alert>
@@ -120,8 +121,8 @@ export default {
       this.errorMsg = msg;
     },
     checkError(data) {
-      if (data.code >= 400) {
-        throw new Error(data.message);
+      if (data.result === 'FAIL') {
+        throw new Error(data.errorCode);
       }
     }
   },
