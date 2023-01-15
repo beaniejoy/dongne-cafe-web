@@ -22,7 +22,7 @@
         <v-spacer />
       
         <router-link class="pr-2 pb-2" to="/signup">
-          <span class="text-amber-700">회원가입</span>
+          <span>회원가입</span>
         </router-link>
       </v-card-actions>
     </v-card>

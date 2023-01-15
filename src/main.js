@@ -5,8 +5,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import { loadFonts } from './plugins/webfontloader';
 import { globalCookiesConfig } from 'vue3-cookies';
-import 'tailwindcss/tailwind.css';
-// import './index.css';
+import './index.pcss';
 
 globalCookiesConfig({
   expireTimes: '30d',

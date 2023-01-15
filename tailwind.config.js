@@ -1,11 +1,14 @@
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './public/index.html',
+    './src/**/*.{html,js,vue}'
+  ],
   theme: {
-    extend: {}
-  },
-  variants: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        gugi: ['Gugi'],
+      },
+    }
   },
   plugins: []
 };
