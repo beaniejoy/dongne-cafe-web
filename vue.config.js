@@ -10,7 +10,9 @@ module.exports = defineConfig({
       }
     },
   },
-  transpileDependencies: [
-    'vuetify'
-  ]
+
+  pluginOptions: {
+    vuetify: {
+    }
+  }
 });

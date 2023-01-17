@@ -1,20 +1,26 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import App from './App.vue';
+import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
-import router from './router';
-import 'tailwindcss/tailwind.css';
-import VueCookies from 'vue-cookies';
+import { loadFonts } from './plugins/webfontloader';
+import { globalCookiesConfig } from 'vue3-cookies';
+import './index.pcss';
 
-// vue-cookies default setting
-Vue.use(VueCookies);
-Vue.$cookies.config('3d');  // expire (3 days)
+globalCookiesConfig({
+  expireTimes: '30d',
+  path: '/',
+  domain: '',
+  secure: true,
+  sameSite: 'None',
+});
 
-Vue.config.productionTip = false;
+loadFonts();
 
-new Vue({
-  store,
-  vuetify,
-  router,
-  render: h => h(App)
-}).$mount('#app');
+createApp(App)
+  .use(router)
+  .use(store)
+  .use(router)
+  .use(store)
+  .use(vuetify)
+  .mount('#app');
