@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import RouterUtils from '@/utils/RouterUtils';
+import HomeView from '@/views/HomeView.vue';
 const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue');
 const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue');
 
@@ -12,12 +13,26 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: LoginView,
+    beforeEnter: async (to, from, next) => {
+      console.log('beforeEnter');
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'login');
+      if (isBlockEntrance) {
+        next({ name: 'home' });
+        return;
+      }
+
+      console.log('beforeEnter 2');
+      next();
+    }
   },
   {
     path: '/signup',
     name: 'signup',
-    component: SignupView
+    component: SignupView,
+    beforeEnter: async (to, from, next) => {
+      next();
+    }
   },
 ];
 

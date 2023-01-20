@@ -1,8 +1,6 @@
 <template>
-  <v-main>
-    <v-content>
-      회원가입
-    </v-content>
+  <v-main class="grid content-center">
+    <v-card>회원 가입</v-card>
   </v-main>
 </template>
 
