@@ -15,7 +15,7 @@
 
       <v-card-text class="pb-0">
         <!-- LoginForm Component -->
-        <login-form />
+        <LoginForm />
       </v-card-text>
 
       <v-card-actions>
@@ -38,7 +38,7 @@ export default {
     LoginForm
   },
   created() {
-    
+    console.log('created LoginView');
   },
 };
 </script>
