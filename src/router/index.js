@@ -15,14 +15,12 @@ const routes = [
     name: 'login',
     component: LoginView,
     beforeEnter: async (to, from, next) => {
-      console.log('beforeEnter');
       const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'login');
       if (isBlockEntrance) {
         next({ name: 'home' });
         return;
       }
 
-      console.log('beforeEnter 2');
       next();
     }
   },
@@ -31,6 +29,12 @@ const routes = [
     name: 'signup',
     component: SignupView,
     beforeEnter: async (to, from, next) => {
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'signup');
+      if (isBlockEntrance) {
+        next({ name: 'home' });
+        return;
+      }
+
       next();
     }
   },
