@@ -3,6 +3,7 @@ import RouterUtils from '@/utils/RouterUtils';
 import HomeView from '@/views/HomeView.vue';
 const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue');
 const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue');
+const CafeDetailView = () => import(/* webpackChunkName: "signup" */ '@/views/cafe/CafeDetailView.vue');
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
       next();
     }
   },
+  {
+    path: '/cafes',
+    name: 'cafe_detail',
+    component: CafeDetailView
+  }
 ];
 
 const router = createRouter({
