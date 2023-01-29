@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import RouterUtils from '@/utils/RouterUtils';
-import HomeView from '@/views/HomeView.vue';
-const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue');
-const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue');
+import { createRouter, createWebHistory } from 'vue-router'
+import RouterUtils from '@/utils/RouterUtils'
+import HomeView from '@/views/HomeView.vue'
+const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue')
+const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue')
 
 const routes = [
   {
@@ -15,13 +15,13 @@ const routes = [
     name: 'login',
     component: LoginView,
     beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'login');
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'login')
       if (isBlockEntrance) {
-        next({ name: 'home' });
-        return;
+        next({ name: 'home' })
+        return
       }
 
-      next();
+      next()
     }
   },
   {
@@ -29,20 +29,20 @@ const routes = [
     name: 'signup',
     component: SignupView,
     beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'signup');
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'signup')
       if (isBlockEntrance) {
-        next({ name: 'home' });
-        return;
+        next({ name: 'home' })
+        return
       }
 
-      next();
+      next()
     }
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-});
+})
 
-export default router;
+export default router

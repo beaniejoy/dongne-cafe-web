@@ -8,12 +8,13 @@ module.exports = {
     browser: true,
   },
   extends: [
-    "plugin:vue/essential", // Use this if you are using Vue.js 2.x.
+    // "plugin:vue/essential", // Use this if you are using Vue.js 2.x.
+    "plugin:vue/vue3-recommended", // Use this if you are using Vue.js 2.x.
     "eslint:recommended", // able to use eslint rules (https://eslint.org/docs/rules/)
   ],
   rules: {
     /* eslint:recommended */
-    semi: ["error", "always"],
+    semi: ["error", "never"],
     indent: ["error", 2],
     // 'no-mixed-spaces-and-tabs': "error",
     "no-unsafe-finally": ["error"],
@@ -70,5 +71,6 @@ module.exports = {
         },
       },
     ],
+    "vue/order-in-components": ["error"],
   },
 };

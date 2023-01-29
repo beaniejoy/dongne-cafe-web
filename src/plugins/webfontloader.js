@@ -5,7 +5,7 @@
  */
 
 export async function loadFonts() {
-  const webFontLoader = await import(/* webpackChunkName: "webfontloader" */'webfontloader');
+  const webFontLoader = await import(/* webpackChunkName: "webfontloader" */'webfontloader')
 
   webFontLoader.load({
     google: {
@@ -16,5 +16,5 @@ export async function loadFonts() {
         'Poor+Story&display=swap'
       ],
     },
-  });
+  })
 }

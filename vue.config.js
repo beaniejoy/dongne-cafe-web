@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service');
+const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   devServer: {
     hot: true,
@@ -15,4 +15,4 @@ module.exports = defineConfig({
     vuetify: {
     }
   }
-});
+})

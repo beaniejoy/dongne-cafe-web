@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/auth/LoginForm.vue';
+import LoginForm from '@/components/auth/LoginForm.vue'
 
 export default {
   name: 'LoginView',
@@ -38,9 +38,9 @@ export default {
     LoginForm
   },
   created() {
-    console.log('created LoginView');
+    console.log('created LoginView')
   },
-};
+}
 </script>
 
 <style>

@@ -1,5 +1,5 @@
-import CookiesUtils from '@/utils/CookiesUtils';
-import { authService } from '@/api/auth/AuthService';
+import CookiesUtils from '@/utils/CookiesUtils'
+import { authService } from '@/api/auth/AuthService'
 
 /**
  * vue router 프로세스 지원 util class
@@ -15,16 +15,16 @@ export default class RouterUtils {
   static async checkBlockEntranceByAuth(to, target) {
 
     if (!CookiesUtils.getCookie(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)) {
-      return false;
+      return false
     }
 
     // 인증된 사용자 여부 체크
-    const isAuthenticated = await authService.checkAuthenticated();
-    console.log('isAuthenticated:', isAuthenticated);
+    const isAuthenticated = await authService.checkAuthenticated()
+    console.log('isAuthenticated:', isAuthenticated)
     if (isAuthenticated && to.name === target) {
-      return true;        
+      return true        
     }
 
-    return false;
+    return false
   }
 }
