@@ -1,6 +1,6 @@
 <template>
-  <v-main class="grid content-center">
-    <v-responsive class="mx-auto" width="500">
+  <v-main class="grid content-center home-view">
+    <v-responsive class="mx-auto" width="600">
       <div class="flex justify-end">
         <v-btn 
           v-for="btn in authBtnGroup.btns"
@@ -16,13 +16,15 @@
       </div>
     </v-responsive>
     <br />
-    <v-responsive class="mx-auto" min-width="500">
+    <v-responsive class="mx-auto" min-width="600">
       <v-text-field 
         label="원하는 카페는 어디인가요?"
         variant="solo"
         prepend-icon="mdi-coffee"
         append-inner-icon="mdi-magnify"
         single-line
+        clearable
+        @click:append-inner="searchCafe"
       />
     </v-responsive>
   </v-main>
@@ -47,10 +49,10 @@ export default {
     }
   },
   created() {
-    this.init()
+    this.initSetup()
   },
   methods: {
-    init() {
+    initSetup() {
       console.log('HomeView Init')
       this.initAuthBtnGroup()
     },
@@ -74,14 +76,22 @@ export default {
             click: this.logout,
             name: '회원가입'
           },
-        ]
-      
+        ]  
     },
     logout() {
       if (CookiesUtils.removeIfExisted(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)) {
         this.$router.replace({ name: 'login' })
       }
+    },
+    searchCafe() {
+      // TODO cafe search api 적용하기
     }
   },
 }
 </script>
+<style lang="scss" scoped>
+.home-view {
+  background-image: url("@/assets/img/home.jpg");
+  opacity: 0.8;
+}
+</style>
