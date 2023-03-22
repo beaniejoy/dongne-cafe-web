@@ -1,23 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import RouterUtils from '@/utils/RouterUtils'
-import HomeView from '@/views/HomeView.vue'
+import cafeRoutes from '@/router/cafe'
+
+const HomeView = () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue')
 const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue')
 const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue')
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: HomeView
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: LoginView,
     beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'login')
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'Login')
       if (isBlockEntrance) {
-        next({ name: 'home' })
+        next({ name: 'Home' })
         return
       }
 
@@ -26,18 +28,19 @@ const routes = [
   },
   {
     path: '/signup',
-    name: 'signup',
+    name: 'SignUp',
     component: SignupView,
     beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'signup')
+      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'SignUp')
       if (isBlockEntrance) {
-        next({ name: 'home' })
+        next({ name: 'Home' })
         return
       }
 
       next()
     }
   },
+  ...cafeRoutes
 ]
 
 const router = createRouter({

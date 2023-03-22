@@ -22,7 +22,7 @@ export default class RouterUtils {
     const isAuthenticated = await authService.checkAuthenticated()
     console.log('isAuthenticated:', isAuthenticated)
     if (isAuthenticated && to.name === target) {
-      return true        
+      return true
     }
 
     return false

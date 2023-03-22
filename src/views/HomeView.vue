@@ -18,13 +18,15 @@
     <br />
     <v-responsive class="mx-auto" min-width="600">
       <v-text-field 
-        label="원하는 카페는 어디인가요?"
+        v-model="cafeKeyword"
+        label="원하는 카페가 어디인가요?"
         variant="solo"
-        prepend-icon="mdi-coffee"
+        prepend-inner-icon="mdi-coffee"
         append-inner-icon="mdi-magnify"
         single-line
         clearable
-        @click:append-inner="searchCafe"
+        @keyup.enter="searchCafeList"
+        @click:append-inner="searchCafeList"
       />
     </v-responsive>
   </v-main>
@@ -41,6 +43,7 @@ export default {
         size: 'small', // btn common size 
         btns: []
       },
+      cafeKeyword: null,
     }
   },
   computed: {
@@ -80,11 +83,12 @@ export default {
     },
     logout() {
       if (CookiesUtils.removeIfExisted(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)) {
-        this.$router.replace({ name: 'login' })
+        this.$router.replace({ name: 'Login' })
       }
     },
-    searchCafe() {
+    searchCafeList() {
       // TODO cafe search api 적용하기
+      this.$router.push({ name: 'CafeList', query: { q: this.cafeKeyword } })
     }
   },
 }
