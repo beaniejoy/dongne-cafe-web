@@ -100,7 +100,7 @@ export default {
         this.$router.replace({ name: 'Home' })
       } catch (e) {
         console.error(e)
-        this.handleError(e.message)
+        this.handleError(e)
       }
     },
     async authenticate() {
@@ -111,18 +111,11 @@ export default {
 
       console.log('authenticate result:', responseData)
 
-      this.checkError(responseData)
-
       return responseData.data
     },
     handleError(msg) {
       this.isNotAuthenticated = true
       this.errorMsg = msg
-    },
-    checkError(data) {
-      if (data.result === 'FAIL') {
-        throw new Error(data.errorCode)
-      }
     }
   },
 }
