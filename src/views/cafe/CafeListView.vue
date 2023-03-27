@@ -1,19 +1,17 @@
 <template>
   <v-main class="grid content-center">
-    <v-card>회원 가입</v-card>
+    Hello
   </v-main>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-
-    }
+  created() {
+    console.log('query', this.$route.query.q)
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

@@ -6,8 +6,17 @@
         width="380px"
         max-height="300px"
         src="@/assets/img/main_login.jpg"
-        eager
+        lazy-src="https://picsum.photos/10/6?image=10"
+        cover
       >
+        <template #:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular 
+              color="grey-lighten-4" 
+              indeterminate 
+            />
+          </div>
+        </template>
         <v-card-title class="ml-3 mb-1">
           우리 동네 카페
         </v-card-title>
@@ -30,7 +39,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/auth/LoginForm.vue';
+import LoginForm from '@/components/auth/LoginForm.vue'
 
 export default {
   name: 'LoginView',
@@ -38,9 +47,9 @@ export default {
     LoginForm
   },
   created() {
-    console.log('created LoginView');
+    console.log('created LoginView')
   },
-};
+}
 </script>
 
 <style>
