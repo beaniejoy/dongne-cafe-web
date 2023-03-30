@@ -6,7 +6,6 @@ export class UrlBuilder {
    */
   static createPathWithParams(path, params = {}) {
     const queries = Object.entries(params).map(([key, value]) => {
-      console.log(key, value)
       return `${key}=${value}`
     }).join('&')
 

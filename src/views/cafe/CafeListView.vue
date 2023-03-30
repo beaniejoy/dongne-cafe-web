@@ -1,13 +1,20 @@
 <template>
   <v-main class="grid content-center">
+    <SearchBar @search-cafes="searchCafes" />
     Hello
   </v-main>
 </template>
 
 <script>
 import { cafeService } from '@/api/cafe/CafeService'
+import commonMixin from '@/mixins/commonMixin'
+import SearchBar from '@/components/common/SearchBar.vue'
 
 export default {
+  components: {
+    SearchBar
+  },
+  mixins: [commonMixin],
   data() {
     return {
       cafes: []
@@ -17,22 +24,16 @@ export default {
     console.log('#### CafeListView Init ####')
 
     try {
-      const cafesPageResponse = await this.searchCafes(this.$route.query.q)
-      this.cafes = cafesPageResponse.content
-      
+      await this.searchCafes(this.$route.query.q)
+      console.log(this.cafes)
     } catch (e) {
-      console.error(e)
-      // TODO error handling 더 고민해볼 것
       this.handleError(e)
     }
   }, 
   methods: {
     async searchCafes(name) {
       const response = await cafeService.searchCafesApi(name)
-      return response.data
-    },
-    handleError(msg) {
-      alert(msg)
+      this.cafes = response.data.content
     }
   }
 }

@@ -43,9 +43,11 @@
 
 <script>
 import { authService } from '@/api/auth/AuthService'
+import commonMixin from '@/mixins/commonMixin'
 import CookiesUtils from '@/utils/CookiesUtils'
 
 export default {
+  mixins: [commonMixin],
   data() {
     return {
       email: null,
@@ -99,7 +101,6 @@ export default {
         // ex. cafe a로 링크타고 들어왔는데 로그인 페이지 이동 > 로그인 > 이후 다시 cafe a 페이지로 이동
         this.$router.replace({ name: 'Home' })
       } catch (e) {
-        console.error(e)
         this.handleError(e)
       }
     },
@@ -112,10 +113,6 @@ export default {
       console.log('authenticate result:', responseData)
 
       return responseData.data
-    },
-    handleError(msg) {
-      this.isNotAuthenticated = true
-      this.errorMsg = msg
     }
   },
 }

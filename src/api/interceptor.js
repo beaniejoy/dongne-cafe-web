@@ -20,9 +20,7 @@ function setInterceptors(instance) {
   }, error => {
     console.error('#### axios error:', error)
 
-    const { response } = error
-
-    return Promise.reject(response.data.errorCode)
+    return Promise.reject(error)
   })
 
   return instance
@@ -37,4 +35,4 @@ function createAxiosInstance() {
   return setInterceptors(instance)
 }
 
-export let axiosInstance = createAxiosInstance()
+export const axiosInstance = createAxiosInstance()

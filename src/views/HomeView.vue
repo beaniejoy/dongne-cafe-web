@@ -16,26 +16,19 @@
       </div>
     </v-responsive>
     <br />
-    <v-responsive class="mx-auto" min-width="600">
-      <v-text-field 
-        v-model="cafeKeyword"
-        label="원하는 카페가 어디인가요?"
-        variant="solo"
-        prepend-inner-icon="mdi-coffee"
-        append-inner-icon="mdi-magnify"
-        single-line
-        clearable
-        @keyup.enter="searchCafeList"
-        @click:append-inner="searchCafeList"
-      />
-    </v-responsive>
+    <SearchBar @search-cafes="searchCafes" />
   </v-main>
 </template>
 
 <script>
 import CookiesUtils from '@/utils/CookiesUtils'
+import SearchBar from '@/components/common/SearchBar.vue'
+
 export default {
   name: 'HomeView',
+  components: {
+    SearchBar
+  },
   data() {
     return {
       authBtnGroup: {
@@ -43,7 +36,6 @@ export default {
         size: 'small', // btn common size 
         btns: []
       },
-      cafeKeyword: null,
     }
   },
   computed: {
@@ -56,7 +48,7 @@ export default {
   },
   methods: {
     initSetup() {
-      console.log('HomeView Init')
+      console.log('#### HomeView Init ####')
       this.initAuthBtnGroup()
     },
     initAuthBtnGroup() {
@@ -86,9 +78,9 @@ export default {
         this.$router.replace({ name: 'Login' })
       }
     },
-    searchCafeList() {
+    searchCafes(cafeKeyword) {
       // TODO cafe search api 적용하기
-      this.$router.push({ name: 'CafeList', query: { q: this.cafeKeyword } })
+      this.$router.push({ name: 'CafeList', query: { q: cafeKeyword } })
     }
   },
 }
