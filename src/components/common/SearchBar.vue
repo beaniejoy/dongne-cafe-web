@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="mx-auto" min-width="600">
+  <v-responsive class="block mx-auto" max-width="500">
     <v-text-field 
       v-model="cafeKeyword"
       label="원하는 카페가 어디인가요?"

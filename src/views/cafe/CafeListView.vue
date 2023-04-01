@@ -1,7 +1,18 @@
 <template>
-  <v-main class="grid content-center">
-    <SearchBar @search-cafes="searchCafes" />
-    Hello
+  <v-main class="text-center">
+    <v-container class="h-full">
+      <SearchBar class="mt-10" @search-cafes="searchCafes" />
+      <div class="my-auto">
+        <div class="grid grid-cols-3 grid-rows-2 gap-4">
+          <v-card v-for="cafe in cafes" :key="cafe">
+            <v-img />
+            <v-card-item>
+              <v-card-title>{{ cafe.name }}</v-card-title>
+            </v-card-item>
+          </v-card>
+        </div>
+      </div>
+    </v-container>
   </v-main>
 </template>
 
