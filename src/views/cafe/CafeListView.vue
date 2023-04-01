@@ -3,10 +3,19 @@
     <v-container class="h-full">
       <SearchBar class="mt-10" @search-cafes="searchCafes" />
       <div class="my-auto">
-        <div class="grid grid-cols-3 grid-rows-2 gap-4">
-          <v-card v-for="cafe in cafes" :key="cafe">
-            <v-img />
-            <v-card-item>
+        <div class="grid justify-items-center gap-4 text-center sm:grid-cols-3 sm:grid-rows-2 max-sm:grid-flow-row max-sm:auto-rows-auto">
+          <v-card 
+            v-for="cafe in cafes" 
+            :key="cafe" 
+            width="100%" 
+            max-width="280"
+          >
+            <v-img 
+              :src="cafe.imageList[0].imgUrl" 
+              height="200"
+              cover
+            />
+            <v-card-item class="">
               <v-card-title>{{ cafe.name }}</v-card-title>
             </v-card-item>
           </v-card>
