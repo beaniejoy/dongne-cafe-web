@@ -81,7 +81,6 @@ export default {
       }
     },
     searchCafes(cafeKeyword) {
-      // TODO cafe search api 적용하기
       this.$router.push({ name: 'CafeList', query: { q: cafeKeyword } })
     }
   },

@@ -8,6 +8,7 @@
       append-inner-icon="mdi-magnify"
       single-line
       clearable
+      :disabled="searchBarDisabled"
       @keyup.enter="searchCafes"
       @click:append-inner="searchCafes"
     />
@@ -15,19 +16,40 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
+  props: {
+    inputKeyword: {
+      type: String,
+      default: null
+    },
+  },
   emits: {
-    searchCafes: null
+    searchCafes: null,
   },
   data() {
     return {
-      cafeKeyword: null,
+      cafeKeyword: null
     }
   },
+  computed: {
+    ...mapState('cafe', [
+      'searchBarDisabled'
+    ])
+  },
+  created() {
+    console.log('#### SearchBar Init ####')
+    this.cafeKeyword = this.inputKeyword
+  },
   methods: {
+    ...mapMutations('cafe', [
+      'updateSearchBarDisabled'
+    ]),
     searchCafes() {
+      this.updateSearchBarDisabled(true)
       this.$emit('searchCafes', this.cafeKeyword)
-    }
+    },
   }
 }
 </script>
