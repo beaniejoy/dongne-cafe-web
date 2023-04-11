@@ -1,14 +1,8 @@
 import { createStore } from 'vuex'
+import cafe from '@/store/cafe'
 
 export default createStore({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
+    cafe
   }
 })
