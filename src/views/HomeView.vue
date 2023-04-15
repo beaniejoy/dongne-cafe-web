@@ -58,12 +58,12 @@ export default {
         [
           {
             color: 'primary',
-            toPath: '/login',
+            toPath: { name: 'Login' },
             name: '로그인'
           },
           {
             color: 'warning',
-            toPath: '/signup',
+            toPath: { name: 'SignUp' },
             name: '회원가입'
           },
         ] :

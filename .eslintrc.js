@@ -16,6 +16,7 @@ module.exports = {
     /* eslint:recommended */
     semi: ["error", "never"],
     indent: ["error", 2],
+    quotes: ["error", "single"],
     // 'no-mixed-spaces-and-tabs': "error",
     "no-unsafe-finally": ["error"],
     "no-return-assign": ["error"],
@@ -31,7 +32,6 @@ module.exports = {
     "keyword-spacing": ["error", { before: true, after: true }],
     "object-curly-spacing": ["error", "always"],
     "comma-spacing": ["error", { before: false, after: true }],
-    quotes: ["error", "single"],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
 
