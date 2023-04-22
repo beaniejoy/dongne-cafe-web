@@ -71,7 +71,7 @@ export default {
           {
             color: 'error',
             click: this.logout,
-            name: '회원가입'
+            name: '로그아웃'
           },
         ]  
     },

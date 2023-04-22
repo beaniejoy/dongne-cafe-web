@@ -1,23 +1,18 @@
 <template>
   <v-container>
-    <v-text-field
-      v-model="email"
-      label="Email"
-      type="email"
-      variant="filled"
-      density="compact"
-      clearable
-    />
-    <v-text-field 
-      v-model="password"
-      label="Password"
-      variant="filled"
-      density="compact"
-      clearable
-      :type="showPassword"
-      :append-icon="toggleAppendIcon"
-      @click:append="toggleShowPassword"
-    />
+    <template v-for="(field, key) in fields" :key="key">
+      <v-text-field 
+        v-if="field.isNeedLogin"
+        v-model="field.value"
+        :label="field.label"
+        :type="field.type"
+        :append-inner-icon="field.appendIcon"
+        variant="filled"
+        density="compact"
+        clearable
+        @click:append-inner="toggleInputStatus(key)"
+      />
+    </template>
     <v-alert
       v-if="isNotAuthenticated"
       type="error"
@@ -33,7 +28,7 @@
       class="text-white"
       color="brown darken-1"
       block
-      :disabled="checkValidation"
+      :disabled="!checkValidation"
       @click="signin"
     >
       로그인
@@ -44,50 +39,21 @@
 <script>
 import { authService } from '@/api/auth/AuthService'
 import commonMixin from '@/mixins/commonMixin'
+import authFormsSetup from '@/mixins/member/authMixin'
 import CookiesUtils from '@/utils/CookiesUtils'
 
 export default {
   mixins: [commonMixin],
+  setup() {
+    return authFormsSetup()
+  },
   data() {
     return {
-      email: null,
-      password: null,
-      rules: {
-        required: (value) => value,
-        emailFormat: (value) => {
-          const pattern =
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value)
-        },
-      },
-      isShowPassword: false,
       isNotAuthenticated: false,
       errorMsg: '', // error message
     }
   },
-  computed: {
-    showPassword() {
-      return this.isShowPassword ? 'text' : 'password'
-    },
-    toggleAppendIcon() {
-      return this.isShowPassword ? 'mdi-eye' : 'mdi-eye-off'
-    },
-    checkValidation() {
-      if (!this.rules.required(this.email) || !this.rules.required(this.password)) {
-        return true
-      }
-
-      if (!this.rules.emailFormat(this.email)) {
-        return true
-      }
-
-      return false
-    },
-  },
   methods: {
-    toggleShowPassword() {
-      this.isShowPassword = !this.isShowPassword
-    },
     async signin() {
       try {
         const data = await this.authenticate()
@@ -106,8 +72,8 @@ export default {
     },
     async authenticate() {
       const responseData = await authService.authenticateApi({
-        email: this.email,
-        password: this.password,
+        email: this.fields.email.value,
+        password: this.fields.password.value,
       })
 
       console.log('authenticate result:', responseData)

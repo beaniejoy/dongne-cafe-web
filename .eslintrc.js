@@ -12,12 +12,16 @@ module.exports = {
     "plugin:vue/vue3-recommended", // Use this if you are using Vue.js 3.x.
     "eslint:recommended", // able to use eslint rules (https://eslint.org/docs/rules/)
   ],
+  /**
+   * rule level: off, warn, error
+   */
   rules: {
     /* eslint:recommended */
     semi: ["error", "never"],
     indent: ["error", 2],
     quotes: ["error", "single"],
     // 'no-mixed-spaces-and-tabs': "error",
+    "no-unused-vars": ["warn", { "args": "none" }],
     "no-unsafe-finally": ["error"],
     "no-return-assign": ["error"],
     "space-before-function-paren": [

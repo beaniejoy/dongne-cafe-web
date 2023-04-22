@@ -29,7 +29,7 @@
     <v-card-actions>
       <v-spacer />
       
-      <router-link class="pr-2 pb-2" to="/signup">
+      <router-link class="pr-2 pb-2" :to="{ name: 'SignUp'}">
         <span>회원가입</span>
       </router-link>
     </v-card-actions>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import LoginForm from '@/components/auth/LoginForm.vue'
+import LoginForm from '@/components/member/LoginForm.vue'
 
 export default {
   name: 'LoginView',
