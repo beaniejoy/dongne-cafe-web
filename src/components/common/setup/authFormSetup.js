@@ -35,11 +35,20 @@ export default () => {
     }
   })
 
+  const v$ = useVuelidate(createValidationRules(fields), fields)
+
+  const { passwordInputKeys, checkValidation } = createVueComputed({ fields, v$ })
+
+  return { fields, v$, checkValidation, ...createVueMethods({ fields }, { passwordInputKeys }) }
+}
+
+// make vuelidate rules
+function createValidationRules(fields) {
   const requiredWithMessage = helpers.withMessage('필수로 입력해야하는 값입니다.', required)
   const emailWithMessage = helpers.withMessage('이메일 형식이 올바르지 않습니다.', email)
   const confirmPasswordWithMessage = helpers.withMessage('비밀번호가 일치하지 않습니다.', sameAs(computed(() => fields.password.value)))
   
-  const validationRules = {
+  const rules = { 
     email: {
       value: { 
         required: requiredWithMessage, 
@@ -57,7 +66,11 @@ export default () => {
     },
   }
 
-  const v$ = useVuelidate(validationRules, fields)
+  return rules
+}
+
+function createVueComputed(vueData) {
+  const { fields, v$ } = vueData
 
   const passwordInputKeys = computed(() => {
     return Object.keys(fields)
@@ -65,11 +78,19 @@ export default () => {
   })
 
   const route = useRoute()
+
   const checkValidation = computed(() => {
     return Object.keys(fields)
       .filter(key => route.name === 'SignUp' || fields[key].isNeedLogin)
       .every(key => !v$.value[key].$invalid)
   })
+
+  return { passwordInputKeys, checkValidation }
+}
+
+function createVueMethods(vueData, vueComputed) {
+  const { fields } = vueData
+  const { passwordInputKeys } = vueComputed
 
   const togglePasswordInputType = (key) => {
     fields[key].type = fields[key].status ? 'text' : 'password'
@@ -87,5 +108,5 @@ export default () => {
     }
   }
 
-  return { fields, v$, checkValidation, toggleInputStatus }
+  return { toggleInputStatus }
 }
