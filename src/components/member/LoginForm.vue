@@ -38,14 +38,14 @@
 
 <script>
 import { authService } from '@/api/auth/AuthService'
-import commonMixin from '@/mixins/commonMixin'
-import authFormsSetup from '@/mixins/member/authMixin'
+import commonMixin from '@/components/common/mixins/commonMixin'
+import authFormSetup from '@/components/common/setup/authFormSetup'
 import CookiesUtils from '@/utils/CookiesUtils'
 
 export default {
   mixins: [commonMixin],
   setup() {
-    return authFormsSetup()
+    return authFormSetup()
   },
   data() {
     return {

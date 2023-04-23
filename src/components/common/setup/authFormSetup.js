@@ -1,7 +1,7 @@
 import { reactive, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
-import { required, email, sameAs } from '@vuelidate/validators'
+import { helpers, required, email, sameAs } from '@vuelidate/validators'
 
 export default () => {
   const fields = reactive({
@@ -35,25 +35,25 @@ export default () => {
     }
   })
 
-  const rules = {
-    required: (value) => value?.length > 0 ?? false,
-    emailFormat: (value) => {
-      console.log('emailFormat')
-      const pattern =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return pattern.test(value)
-    },
-  }
-
+  const requiredWithMessage = helpers.withMessage('필수로 입력해야하는 값입니다.', required)
+  const emailWithMessage = helpers.withMessage('이메일 형식이 올바르지 않습니다.', email)
+  const confirmPasswordWithMessage = helpers.withMessage('비밀번호가 일치하지 않습니다.', sameAs(computed(() => fields.password.value)))
+  
   const validationRules = {
     email: {
-      value: { required, email }
+      value: { 
+        required: requiredWithMessage, 
+        email: emailWithMessage 
+      }
     },
     password: {
-      value: { required }
+      value: { required: requiredWithMessage }
     },
     confirmPassword: {
-      sameAsPassword: sameAs(fields.confirmPassword.value)
+      value: { 
+        required: requiredWithMessage, 
+        sameAsPassword: confirmPasswordWithMessage
+      }
     },
   }
 
@@ -66,17 +66,9 @@ export default () => {
 
   const route = useRoute()
   const checkValidation = computed(() => {
-    return Object.values(fields)
-      .filter(input => route.name === 'SignUp' || input.isNeedLogin)
-      .every(input => {
-        return input.rules.every(rule => {
-          if (!rules[rule](input.value)) {
-            return false
-          }
-
-          return true
-        })
-      })
+    return Object.keys(fields)
+      .filter(key => route.name === 'SignUp' || fields[key].isNeedLogin)
+      .every(key => !v$.value[key].$invalid)
   })
 
   const togglePasswordInputType = (key) => {
@@ -95,5 +87,5 @@ export default () => {
     }
   }
 
-  return { fields, v$, passwordInputKeys, checkValidation, togglePasswordInputType, togglePasswordIcon, toggleInputStatus }
+  return { fields, v$, checkValidation, toggleInputStatus }
 }
