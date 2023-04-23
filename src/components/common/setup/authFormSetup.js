@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, email, sameAs } from '@vuelidate/validators'
@@ -35,11 +35,13 @@ export default () => {
     }
   })
 
+  const isNotAuthenticated = ref(false)
+
   const v$ = useVuelidate(createValidationRules(fields), fields)
 
   const { passwordInputKeys, checkValidation } = createVueComputed({ fields, v$ })
 
-  return { fields, v$, checkValidation, ...createVueMethods({ fields }, { passwordInputKeys }) }
+  return { fields, isNotAuthenticated, v$, checkValidation, ...createVueMethods({ fields }, { passwordInputKeys }) }
 }
 
 // make vuelidate rules

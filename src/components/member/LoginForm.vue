@@ -19,7 +19,7 @@
       variant="outlined"
       density="compact"
     >
-      {{ errorMsg }}
+      {{ error.message }}
     </v-alert>
 
     <br />
@@ -47,12 +47,6 @@ export default {
   setup() {
     return authFormSetup()
   },
-  data() {
-    return {
-      isNotAuthenticated: false,
-      errorMsg: '', // error message
-    }
-  },
   methods: {
     async signin() {
       try {
@@ -68,12 +62,13 @@ export default {
         this.$router.replace({ name: 'Home' })
       } catch (e) {
         this.handleError(e)
+        this.isNotAuthenticated = true
       }
     },
     async authenticate() {
       const responseData = await authService.authenticateApi({
         email: this.fields.email.value,
-        password: this.fields.password.value,
+        password: this.fields.password.value
       })
 
       console.log('authenticate result:', responseData)
