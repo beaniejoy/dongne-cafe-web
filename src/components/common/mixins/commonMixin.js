@@ -1,7 +1,10 @@
+import { ApiBusinessError } from '@/api/error/ApiBusinessError'
+
 export default {
   data() {
     return {
       error: {
+        message: '',
         default: '일시적인 오류가 발생했습니다.'
       }
     }
@@ -12,14 +15,11 @@ export default {
      */
     handleError(error) {
       console.error(error)
-      
-      if (typeof error !== 'object') {
-        alert(this.error.default)
-        return
-      }
 
-      const { response } = error
-      alert(response?.data.errorCode ?? this.error.default)
+      const message = error instanceof ApiBusinessError ? error.message : this.error.default
+
+      alert(message)
+      this.error.message = message
     }
   }
 }

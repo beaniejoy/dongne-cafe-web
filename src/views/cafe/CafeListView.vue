@@ -60,7 +60,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { cafeService } from '@/api/cafe/CafeService'
-import commonMixin from '@/mixins/commonMixin'
+import commonMixin from '@/components/common/mixins/commonMixin'
 import SearchBar from '@/components/common/SearchBar.vue'
 
 export default {

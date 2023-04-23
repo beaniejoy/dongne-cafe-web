@@ -1,17 +1,10 @@
 <template>
   <v-main class="grid content-center">
-    <v-card>회원 가입</v-card>
+    <router-view />
   </v-main>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-
-    }
-  }
-}
 </script>
 
 <style>

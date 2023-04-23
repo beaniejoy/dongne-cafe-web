@@ -1,5 +1,6 @@
 import axios from 'axios'
 import CookiesUtils from '@/utils/CookiesUtils'
+import { ApiBusinessError } from '@/api/error/ApiBusinessError'
 
 function setInterceptors(instance) {
   instance.interceptors.request.use(config => {
@@ -13,7 +14,8 @@ function setInterceptors(instance) {
     const data = response.data
 
     if (data.result === 'FAIL') {
-      return Promise.reject(data.errorCode)
+      // Predictable Business Exception Handling
+      return Promise.reject(new ApiBusinessError(data.errorCode, data.errorCode))
     }
 
     return data

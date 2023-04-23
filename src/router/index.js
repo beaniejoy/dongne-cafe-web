@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import RouterUtils from '@/utils/RouterUtils'
 import cafeRoutes from '@/router/cafe'
+import memberRoutes from '@/router/member'
 
 const HomeView = () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue')
-const LoginView = () => import(/* webpackChunkName: "login" */ '@/views/auth/LoginView.vue')
-const SignupView = () => import(/* webpackChunkName: "signup" */ '@/views/auth/SignupView.vue')
 
 const routes = [
   {
@@ -12,34 +10,7 @@ const routes = [
     name: 'Home',
     component: HomeView
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: LoginView,
-    beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'Login')
-      if (isBlockEntrance) {
-        next({ name: 'Home' })
-        return
-      }
-
-      next()
-    }
-  },
-  {
-    path: '/signup',
-    name: 'SignUp',
-    component: SignupView,
-    beforeEnter: async (to, from, next) => {
-      const isBlockEntrance = await RouterUtils.checkBlockEntranceByAuth(to, 'SignUp')
-      if (isBlockEntrance) {
-        next({ name: 'Home' })
-        return
-      }
-
-      next()
-    }
-  },
+  ...memberRoutes,
   ...cafeRoutes
 ]
 

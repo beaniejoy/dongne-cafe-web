@@ -10,6 +10,10 @@ class AuthService {
 
     return response?.result === 'SUCCESS'
   }
+
+  async joinMemberApi(requestData) {
+    return await axiosInstance.post('/auth/members/join', requestData)
+  }
 }
 
 export const authService = new AuthService()
