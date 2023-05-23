@@ -63,6 +63,7 @@
 <script>
 import { cafeService } from '@/api/cafe/CafeService'
 import commonMixin from '@/components/common/mixins/commonMixin'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'CafeDetail',
@@ -73,12 +74,22 @@ export default {
     }
   },
   async created() {
+    this.turnOnLoading()
+    
     try {
       const response = await cafeService.getCafeDetail(this.$route.params.cafe_name)
       this.cafeDetail = response.data
     } catch (e) {
       this.handleError(e)
+    } finally {
+      this.turnOffLoading()
     }
+  },
+  methods: {
+    ...mapMutations('common', [
+      'turnOnLoading',
+      'turnOffLoading'
+    ])
   }
 }
 </script>

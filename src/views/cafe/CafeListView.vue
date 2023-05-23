@@ -84,7 +84,12 @@ export default {
     ...mapMutations('cafe', [
       'updateSearchBarDisabled'
     ]),
+    ...mapMutations('common', [
+      'turnOnLoading',
+      'turnOffLoading'
+    ]),
     async searchCafes(name) {
+      this.turnOnLoading()
       // 중복 호출 방지
       if (!this.checkProcessSearchCafes) {
         return
@@ -105,6 +110,8 @@ export default {
         this.updateSearchBarDisabled(false)
   
         this.$router.replace({ name: 'CafeList', query: { q: name } })
+
+        this.turnOffLoading()
       }
     },
     goDetailPage(cafeName) {
