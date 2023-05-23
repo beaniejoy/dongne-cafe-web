@@ -1,28 +1,28 @@
 <template>
   <v-main>
     <v-card
+      v-if="isLoaded"
       class="mx-auto"
       max-width="600"
       elevation="6"
       height="100%"
     >
-      <template #loader="{ isActive }">
-        <v-progress-linear
-          :active="isActive"
-          color="deep-purple"
-          height="4"
-          indeterminate
-        />
-      </template>
-
-      <v-img
-        cover
+      <v-carousel
         height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-      />
+        hide-delimiter-background
+        hide-delimiters
+      >
+        <v-carousel-item
+          v-for="(image, i) in cafeDetail.images"
+          :key="`image_${i}`"
+          :src="image.imgUrl"
+          height="100%"
+          cover
+        />
+      </v-carousel>
 
       <v-card-item>
-        <v-card-title>Cafe Badilico</v-card-title>
+        <v-card-title>{{ cafeDetail.name }}</v-card-title>
       </v-card-item>
 
       <v-card-text>
@@ -31,7 +31,7 @@
           class="mx-0"
         >
           <v-rating
-            :model-value="cafeDetail?.totalRate"
+            :model-value="cafeDetail.totalRate"
             color="amber"
             density="compact"
             half-increments
@@ -39,14 +39,34 @@
             size="small"
           />
           <div class="text-grey ms-4">
-            {{ cafeDetail?.totalRate }} (413)
+            {{ cafeDetail.totalRate }} (413)
           </div>
         </v-row>
-
-        <div class="my-4 text-subtitle-1">
-          $ • Italian, Cafe
-        </div>
       </v-card-text>
+
+      <v-card 
+        v-for="(menu, i) in cafeDetail.menus" 
+        :key="`menu_${i}`"
+        elevation="0"
+      >
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <div>
+            <v-card-title>
+              {{ menu.name }}
+            </v-card-title>
+
+            <v-card-subtitle>{{ menu.price }}</v-card-subtitle>
+          </div>
+
+          <v-avatar
+            class="ma-3"
+            size="125"
+            rounded="0"
+          >
+            <v-img src="https://cdn.vuetifyjs.com/images/cards/foster.jpg" />
+          </v-avatar>
+        </div>
+      </v-card>
 
       <v-card-actions>
         <v-btn
@@ -70,6 +90,7 @@ export default {
   mixins: [commonMixin],
   data() {
     return {
+      isLoaded: false,
       cafeDetail: null
     }
   },
@@ -83,6 +104,7 @@ export default {
       this.handleError(e)
     } finally {
       this.turnOffLoading()
+      this.isLoaded = true
     }
   },
   methods: {

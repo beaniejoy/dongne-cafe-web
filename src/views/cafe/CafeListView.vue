@@ -16,7 +16,7 @@
             @click="goDetailPage(cafe.name)"
           >
             <v-img 
-              :src="cafe.imageList[0].imgUrl" 
+              :src="cafe.images[0].imgUrl" 
               height="200"
               cover
             />
