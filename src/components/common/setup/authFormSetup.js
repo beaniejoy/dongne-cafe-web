@@ -41,7 +41,13 @@ export default () => {
 
   const { passwordInputKeys, checkValidation } = createVueComputed({ fields, v$ })
 
-  return { fields, isNotAuthenticated, v$, checkValidation, ...createVueMethods({ fields }, { passwordInputKeys }) }
+  return { 
+    fields, 
+    isNotAuthenticated, 
+    v$, 
+    checkValidation, 
+    ...createVueMethods({ fields }, { passwordInputKeys }) 
+  }
 }
 
 // make vuelidate rules

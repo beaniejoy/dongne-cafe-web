@@ -76,5 +76,6 @@ module.exports = {
       },
     ],
     "vue/order-in-components": ["error"],
+    "vue/multi-word-component-names": "off",
   },
 };

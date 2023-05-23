@@ -5,6 +5,10 @@ class CafeService {
   searchCafesApi(name) {
     return axiosInstance.get(UrlBuilder.createPathWithParams('/api/cafes', { name }))
   }
+
+  getCafeDetail(cafeName) {
+    return axiosInstance.get(`/api/cafes/${cafeName}`)
+  }
 }
 
 export const cafeService = new CafeService()

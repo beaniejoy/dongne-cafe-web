@@ -13,6 +13,7 @@
             :key="cafe" 
             width="100%" 
             max-width="280"
+            @click="goDetailPage(cafe.name)"
           >
             <v-img 
               :src="cafe.imageList[0].imgUrl" 
@@ -105,8 +106,13 @@ export default {
   
         this.$router.replace({ name: 'CafeList', query: { q: name } })
       }
-
     },
+    goDetailPage(cafeName) {
+      this.$router.push({ 
+        name: 'CafeDetail', 
+        params: { cafe_name: cafeName.split(' ').join('_') } 
+      })
+    }
   }
 }
 </script>
