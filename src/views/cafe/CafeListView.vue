@@ -16,13 +16,13 @@
             @click="goDetailPage(cafe.name)"
           >
             <v-img 
-              :src="cafe.images[0].imgUrl" 
+              :src="cafe.cafeImages[0].imgUrl" 
               height="200"
               cover
             />
             <v-card-item>
               <v-card-title class="d-flex justify-space-between">
-                <span>{{ cafe.name }}</span>
+                <span>{{ $filters.cafeNameWhiteSpace(cafe.name) }}</span>
                 <v-btn
                   class="inline-block"
                   size="small"

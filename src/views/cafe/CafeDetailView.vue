@@ -13,7 +13,7 @@
         hide-delimiters
       >
         <v-carousel-item
-          v-for="(image, i) in cafeDetail.images"
+          v-for="(image, i) in cafeDetail.cafeImages"
           :key="`image_${i}`"
           :src="image.imgUrl"
           height="100%"
@@ -22,7 +22,9 @@
       </v-carousel>
 
       <v-card-item>
-        <v-card-title>{{ cafeDetail.name }}</v-card-title>
+        <v-card-title>
+          {{ $filters.cafeNameWhiteSpace(cafeDetail.name) }}
+        </v-card-title>
       </v-card-item>
 
       <v-card-text>
