@@ -1,6 +1,5 @@
 export default {
   namespaced: true,
-
   state: {
     displayLoading: false,
   },

@@ -3,7 +3,7 @@
     <v-card
       v-if="isLoaded"
       class="mx-auto"
-      max-width="600"
+      :max-width="cardDetailWidth"
       elevation="6"
       height="100%"
     >
@@ -104,6 +104,7 @@ export default {
   mixins: [commonMixin],
   data() {
     return {
+      cardDetailWidth: 600,
       isLoaded: false,
       cafeDetail: null
     }
