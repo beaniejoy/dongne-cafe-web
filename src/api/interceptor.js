@@ -1,11 +1,11 @@
 import axios from 'axios'
-import CookiesUtils from '@/utils/CookiesUtils'
 import { ApiBusinessError } from '@/api/error/ApiBusinessError'
+import { authToken } from '@/api/auth/AuthToken'
 
 function setInterceptors(instance) {
   instance.interceptors.request.use(config => {
     console.log('#### axios request', config)
-    config.headers['Authorization'] = `Bearer ${CookiesUtils.getCookie(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)}`
+    config.headers['Authorization'] = `Bearer ${authToken.accessToken}`
     return config
   })
 

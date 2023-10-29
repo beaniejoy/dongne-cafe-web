@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import SignupForm from '@/components/member/SignupForm.vue'
+import SignupForm from '@/components/auth/SignupForm.vue'
 
 export default {
   components: {

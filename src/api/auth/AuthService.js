@@ -6,13 +6,21 @@ class AuthService {
   }
 
   async checkAuthenticated() {
-    const response = await axiosInstance.get('/auth/check')
+    const data = await axiosInstance.get('/auth/check')
 
-    return response?.result === 'SUCCESS'
+    return data?.result === 'SUCCESS'
   }
 
-  async joinMemberApi(requestData) {
-    return await axiosInstance.post('/auth/members/join', requestData)
+  joinMemberApi(requestData) {
+    return axiosInstance.post('/auth/members/join', requestData)
+  }
+
+  renewAuthToken() {
+    return axiosInstance.post('/auth/token/renew')
+  }
+
+  logout() {
+    return axiosInstance.post('/auth/logout')
   }
 }
 
