@@ -6,5 +6,13 @@
   </v-app>
 </template>
 
+<script>
+export default {
+  name: 'App',
+  async created() {
+    console.log('#### App Init ####')
+  }
+}
+</script>
 <style lang="scss">
 </style>

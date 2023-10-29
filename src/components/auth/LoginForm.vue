@@ -38,9 +38,9 @@
 
 <script>
 import { authService } from '@/api/auth/AuthService'
+import { authToken } from '@/api/auth/AuthToken'
 import commonMixin from '@/components/common/mixins/commonMixin'
 import authFormSetup from '@/components/common/setup/authFormSetup'
-import CookiesUtils from '@/utils/CookiesUtils'
 
 export default {
   mixins: [commonMixin],
@@ -51,11 +51,8 @@ export default {
     async signin() {
       try {
         const data = await this.authenticate()
-        CookiesUtils.setCookie(
-          process.env.VUE_APP_ACCESS_TOKEN_COOKIE,
-          data.accessToken,
-          60 * 60
-        )
+        console.log(data.accessToken)
+        authToken.updateAccessToken(data.accessToken)
 
         // TODO 상황에 따라 해당 페이지로 이동
         // ex. cafe a로 링크타고 들어왔는데 로그인 페이지 이동 > 로그인 > 이후 다시 cafe a 페이지로 이동

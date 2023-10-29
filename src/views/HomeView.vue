@@ -23,14 +23,17 @@
 </template>
 
 <script>
-import CookiesUtils from '@/utils/CookiesUtils'
 import SearchBar from '@/components/common/SearchBar.vue'
+import { authToken } from '@/api/auth/AuthToken'
+import { authService } from '@/api/auth/AuthService'
+import commonMixin from '@/components/common/mixins/commonMixin'
 
 export default {
   name: 'HomeView',
   components: {
     SearchBar
   },
+  mixins: [commonMixin],
   data() {
     return {
       authBtnGroup: {
@@ -38,11 +41,6 @@ export default {
         size: 'small', // btn common size 
         btns: []
       },
-    }
-  },
-  computed: {
-    checkAuthenticated() {
-      return CookiesUtils.getCookie(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)
     }
   },
   created() {
@@ -54,7 +52,7 @@ export default {
       this.initAuthBtnGroup()
     },
     initAuthBtnGroup() {
-      this.authBtnGroup.btns = !this.checkAuthenticated ? 
+      this.authBtnGroup.btns = !authToken.isAuthenticated() ? 
         [
           {
             color: 'primary',
@@ -75,14 +73,18 @@ export default {
           },
         ]  
     },
-    logout() {
-      if (CookiesUtils.removeIfExisted(process.env.VUE_APP_ACCESS_TOKEN_COOKIE)) {
-        this.$router.replace({ name: 'Login' })
+    async logout() {
+      try {
+        await authService.logout()
+
+        this.$router.go(0)
+      } catch (e) {
+        this.handleError(e)
       }
     },
     searchCafes(cafeKeyword) {
       this.$router.push({ name: 'CafeList', query: { q: cafeKeyword } })
-    }
+    },
   },
 }
 </script>
