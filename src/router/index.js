@@ -28,9 +28,8 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   try {
     // silent renew token
-    if (!to.meta.requiresOnlyNotAuth && !authToken.isAuthenticated()) {
-      const renewResponse = await authService.renewAuthToken()
-      authToken.updateAccessToken(renewResponse.data.accessToken)
+    if (!authToken.isAuthenticated()) {
+      await authService.renewAuthToken()
     }
     
     // 인증 받은 사용자가 허용되지 않은 페이지에 진입하는 경우

@@ -70,7 +70,7 @@ export default {
             color: 'error',
             click: this.logout,
             name: '로그아웃'
-          }
+          },
         ]  
     },
     async logout() {
@@ -84,7 +84,7 @@ export default {
     },
     searchCafes(cafeKeyword) {
       this.$router.push({ name: 'CafeList', query: { q: cafeKeyword } })
-    }
+    },
   },
 }
 </script>
