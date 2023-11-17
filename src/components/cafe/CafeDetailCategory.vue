@@ -1,26 +1,9 @@
 <template>
-  <div>
-    <v-slide-group
-      show-arrows
-    >
-      <v-slide-group-item
-        v-for="(category, index) in cafeMenuCategories"
-        :key="`category_slide_${category.menuCategoryId}`"
-        v-slot="{ isSelected }"
-      >
-        <v-btn
-          class="ma-2"
-          rounded
-          :color="isSelected ? 'primary' : undefined"
-          @click="moveToCategoryDirectly(index)"
-        >
-          {{ category.name }}
-        </v-btn>
-      </v-slide-group-item>
-    </v-slide-group>
-    <v-sheet
-      v-for="(category) in cafeMenuCategories" 
-      :key="`category_${category.menuCategoryId}`"
+  <div
+    v-for="(category, index) in cafeMenuCategories" 
+    :key="`category_${category.menuCategoryId}`"
+  >
+    <v-card
       ref="categoryRefs"
       border
       class="py-4"
@@ -32,7 +15,7 @@
 
         <v-card-subtitle>{{ category.description }}</v-card-subtitle>
       </div>
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="start">
         <v-col
           v-for="menu in category.cafeMenus"
           :key="`menu_${menu.cafeMenuId}`"
@@ -53,7 +36,12 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-sheet>
+    </v-card>
+
+    <v-divider 
+      v-if="index != cafeMenuCategories.length - 1" 
+      class="py-2 bg-slate-600"
+    />
   </div>
 </template>
 
@@ -70,11 +58,15 @@ defineProps({
 
 const categoryRefs = ref([])
 
-function moveToCategoryDirectly(index) {
+const moveToCategoryDirectly = (index) => {
   categoryRefs.value[index]
     .$el
     .scrollIntoView({ behavior: 'smooth' })
 }
+
+defineExpose({
+  moveToCategoryDirectly
+})
 </script>
 
 <style lang="scss" scoped>
