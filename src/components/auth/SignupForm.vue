@@ -39,7 +39,7 @@
 
 <script>
 import commonMixin from '@/components/common/mixins/commonMixin'
-import authFormSetup from '@/components/common/setup/authFormSetup'
+import authFormSetup from '@/components/auth/authFormSetup'
 import { authService } from '@/api/auth/AuthService'
 
 export default {

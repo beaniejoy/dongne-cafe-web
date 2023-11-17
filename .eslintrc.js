@@ -6,6 +6,7 @@ module.exports = {
   env: {
     node: true,
     browser: true,
+    "vue/setup-compiler-macros": true // vue composition API (unnecessary imports)
   },
   extends: [
     // "plugin:vue/essential", // Use this if you are using Vue.js 2.x.

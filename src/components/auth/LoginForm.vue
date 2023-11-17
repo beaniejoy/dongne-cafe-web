@@ -40,7 +40,7 @@
 import { authService } from '@/api/auth/AuthService'
 import { authToken } from '@/api/auth/AuthToken'
 import commonMixin from '@/components/common/mixins/commonMixin'
-import authFormSetup from '@/components/common/setup/authFormSetup'
+import authFormSetup from '@/components/auth/authFormSetup'
 
 export default {
   mixins: [commonMixin],

@@ -1,21 +1,22 @@
 <template>
-  <v-main class="grid content-center home-view">
-    <v-container>
-      <v-responsive class="block mx-auto " max-width="600">
-        <div class="flex justify-end mr-5">
-          <v-btn 
-            v-for="btn in authBtnGroup.btns"
-            :key="btn"
-            :class="authBtnGroup.class"
-            :size="authBtnGroup.size"
-            :color="btn.color"
-            :to="btn.toPath"
-            @click="btn.click"
-          >
-            {{ btn.name }}
-          </v-btn>
-        </div>
-      </v-responsive>
+  <v-main class="grid grid-cols-7 gap-4 content-center home-view">
+    <v-container 
+      class="lg:col-start-3 lg:col-span-3 max-lg:col-start-2 max-lg:col-span-5 block mx-auto" 
+      max-width="600"
+    >
+      <div class="flex justify-end mr-5">
+        <v-btn 
+          v-for="btn in authBtnGroup.btns"
+          :key="btn"
+          :class="authBtnGroup.class"
+          :size="authBtnGroup.size"
+          :color="btn.color"
+          :to="btn.toPath"
+          @click="btn.click"
+        >
+          {{ btn.name }}
+        </v-btn>
+      </div>
       <br />
       <SearchBar @search-cafes="searchCafes" />
     </v-container>

@@ -7,20 +7,7 @@
       elevation="6"
       height="100%"
     >
-      <v-carousel
-        cycle
-        height="250"
-        show-arrows="hover"
-        hide-delimiter-background
-      >
-        <v-carousel-item
-          v-for="(image, i) in cafeDetail.cafeImages"
-          :key="`image_${i}`"
-          :src="image.imgUrl"
-          height="100%"
-          cover
-        />
-      </v-carousel>
+      <CafeDetailTopImages :cafe-images="cafeDetail.cafeImages" />
 
       <v-card-item>
         <v-card-title class="my-2">
@@ -50,46 +37,9 @@
 
       <v-divider class="mx-4 mb-1" />
 
-      <v-sheet
-        v-for="category in cafeDetail.cafeMenuCategories" 
-        :key="`category_${category.menuCategoryId}`"
-        border
-        class="py-4"
-      >
-        <div class="mb-4 px-2">
-          <v-card-title>
-            {{ category.name }}
-          </v-card-title>
-
-          <v-card-subtitle>{{ category.description }}</v-card-subtitle>
-        </div>
-        <div>
-          <v-card 
-            v-for="menu in category.cafeMenus"
-            :key="`menu_${menu.cafeMenuId}`"
-            elevation="0"
-          >
-            <div class="flex flex-nowrap justify-around">
-              <v-avatar
-                class="ma-3"
-                size="125"
-                rounded="0"
-              >
-                <v-img src="https://cdn.vuetifyjs.com/images/cards/foster.jpg" />
-              </v-avatar>
-          
-              <div>
-                <v-card-title>
-                  {{ menu.name }}
-                </v-card-title>
-
-                <v-card-subtitle>{{ $filters.currencyKOR(menu.price) }}</v-card-subtitle>
-                <v-card-subtitle>{{ menu.description }}</v-card-subtitle>
-              </div>
-            </div>
-          </v-card>
-        </div>
-      </v-sheet>
+      <CafeDetailCategory 
+        :cafe-menu-categories="cafeDetail.cafeMenuCategories" 
+      />
     </v-card>
   </v-main>
 </template>
@@ -98,9 +48,15 @@
 import { cafeService } from '@/api/cafe/CafeService'
 import commonMixin from '@/components/common/mixins/commonMixin'
 import { mapMutations } from 'vuex'
+import CafeDetailTopImages from '@/components/cafe/CafeDetailTopImages.vue'
+import CafeDetailCategory from '@/components/cafe/CafeDetailCategory.vue'
 
 export default {
   name: 'CafeDetail',
+  components: {
+    CafeDetailTopImages,
+    CafeDetailCategory
+  },
   mixins: [commonMixin],
   data() {
     return {

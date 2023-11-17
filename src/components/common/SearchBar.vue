@@ -1,5 +1,5 @@
 <template>
-  <v-responsive class="block mx-auto" max-width="500">
+  <div class="block mx-auto" max-width="500">
     <v-text-field 
       v-model="cafeKeyword"
       label="원하는 카페가 어디인가요?"
@@ -12,7 +12,7 @@
       @keyup.enter="searchCafes"
       @click:append-inner="searchCafes"
     />
-  </v-responsive>
+  </div>
 </template>
 
 <script>
