@@ -3,7 +3,7 @@
     <v-card
       v-if="isLoaded"
       class="mx-auto"
-      :max-width="cardDetailWidth"
+      max-width="900"
       elevation="6"
       color="grey-lighten-2"
       height="100%"
@@ -61,8 +61,10 @@
           >
             <v-hover v-slot="{ isHovering, props }">
               <v-card 
+                width="160"
                 :elevation="isHovering ? 12 : 2"
                 hover
+                class="mx-auto"
                 :class="{ 'on-hover': isHovering }"
                 v-bind="props"
                 @click="selectCategory(category)"
@@ -70,7 +72,6 @@
                 <v-img 
                   :src="!isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
                   :lazy-src="isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
-                  width="200"
                   aspect-ratio="1"
                   cover
                   :class="isHovering ? 'align-center' : 'align-end'"
@@ -100,57 +101,52 @@
   </v-main>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import { cafeService } from '@/api/cafe/CafeService'
-import commonMixin from '@/components/common/mixins/commonMixin'
-import { mapMutations } from 'vuex'
+import useCommonSetup from '@/components/common/useCommonSetup'
 import CafeDetailTopImages from '@/components/cafe/CafeDetailTopImages.vue'
 import CafeDetailMenuSection from '@/components/cafe/CafeDetailMenuSection.vue'
 
-export default {
-  name: 'CafeDetail',
-  components: {
-    CafeDetailTopImages,
-    CafeDetailMenuSection
-  },
-  mixins: [commonMixin],
-  data() {
-    return {
-      cardDetailWidth: 900,
-      isLoaded: false,
-      cafeDetail: null,
-      isCategorySelected: false,
-      selectedCategory: null
-    }
-  },
-  async created() {
-    this.turnOnLoading()
-    
-    try {
-      const response = await cafeService.getCafeDetail(this.$route.params.cafe_name)
-      this.cafeDetail = response.data
-    } catch (e) {
-      this.handleError(e)
-    } finally {
-      this.turnOffLoading()
-      this.isLoaded = true
-    }
-  },
-  methods: {
-    ...mapMutations('common', [
-      'turnOnLoading',
-      'turnOffLoading'
-    ]),
-    selectCategory(category) {
-      this.selectedCategory = category
-      this.isCategorySelected = true  // open CafeMenuSection component
-    },
-    goBackToCategory() {
-      this.isCategorySelected = false  // open CafeCategorySection component
-      this.selectedCategory = null
-    }
+const { handleError } = useCommonSetup()
+
+const isLoaded = ref(false)
+const cafeDetail = ref(null)
+const isCategorySelected = ref(false)
+const selectedCategory = ref(null)
+
+const route = useRoute()
+const store = useStore()
+const turnOnLoading = () => store.commit('common/turnOnLoading')
+const turnOffLoading = () => store.commit('common/turnOffLoading')
+
+const selectCategory = (category) => {
+  selectedCategory.value = category
+  isCategorySelected.value = true  // open CafeMenuSection component
+}
+
+const goBackToCategory = () => {
+  isCategorySelected.value = false  // open CafeCategorySection component
+  selectedCategory.value = null
+}
+
+const init = async () => {
+  turnOnLoading()
+      
+  try {
+    const response = await cafeService.getCafeDetail(route.params.cafe_name)
+    cafeDetail.value = response.data
+  } catch (e) {
+    handleError(e)
+  } finally {
+    turnOffLoading()
+    isLoaded.value = true
   }
 }
+
+init()
 </script>
 
 <style>

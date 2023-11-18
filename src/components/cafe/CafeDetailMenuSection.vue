@@ -6,7 +6,7 @@
         {{ category.name }}
       </v-toolbar-title>
       <template #extension>
-        <div class="mx-4">
+        <div class="mx-9">
           {{ category.description }}
         </div>
       </template>
@@ -27,10 +27,14 @@
         cols="12"
         class="px-4 py-4"
       >
-        <v-card elevation="0" hover>
+        <v-card
+          elevation="0"
+          hover
+          class="mx-auto"
+          width="160"
+        >
           <v-img 
             src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-            width="200"
             cover
             aspect-ratio="1"
           />
