@@ -11,14 +11,17 @@
       <CafeDetailTopImages :cafe-images="cafeDetail.cafeImages" />
 
       <v-card>
-        <v-card-title class="my-2">
-          <v-icon icon="mdi-coffee" class="mr-2" />
-          {{ $filters.cafeNameWhiteSpace(cafeDetail.name) }}
-        </v-card-title>
+        <v-card-item>
+          <v-card-title class="my-2 text-center">
+            <v-icon icon="mdi-coffee" class="mr-2" />
+            {{ $filters.cafeNameWhiteSpace(cafeDetail.name) }}
+          </v-card-title>
+        </v-card-item>
 
         <v-card-text class="my-2">
           <v-row
             align="center"
+            justify="center"
             class="mx-0"
           >
             <v-rating
@@ -43,13 +46,18 @@
           v-if="!isCategorySelected"
           align="center"
           justify="start"
-          class="w-full mx-0 my-0"
+          class="w-full mx-0 my-0 px-5 py-5"
         >
           <v-col
             v-for="(category) in cafeDetail.cafeMenuCategories"
             :key="`category_slide_${category.menuCategoryId}`"
-            cols="3"
-            class="px-2 py-2"
+            sm="6"
+            md="4"
+            lg="3"
+            xl="3"
+            xxl="3"
+            cols="12"
+            class="px-4 py-4"
           >
             <v-hover v-slot="{ isHovering, props }">
               <v-card 
@@ -57,10 +65,13 @@
                 hover
                 :class="{ 'on-hover': isHovering }"
                 v-bind="props"
+                @click="selectCategory(category)"
               >
                 <v-img 
-                  src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-                  height="200"
+                  :src="!isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
+                  :lazy-src="isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
+                  width="200"
+                  aspect-ratio="1"
                   cover
                   :class="isHovering ? 'align-center' : 'align-end'"
                 >
@@ -69,19 +80,20 @@
                       {{ category.name }}
                     </v-card-title>
 
-                    <v-card-subtitle v-show="isHovering">
+                    <v-card-text v-show="isHovering">
                       {{ category.description }}
-                    </v-card-subtitle>
+                    </v-card-text>
                   </div>
                 </v-img>
               </v-card>
             </v-hover>
           </v-col>
         </v-row>
-        <CafeDetailCategory
+
+        <CafeDetailMenuSection
           v-else
-          ref="cafeDetailCategory"
-          :cafe-menu-categories="cafeDetail.cafeMenuCategories" 
+          :category="selectedCategory"
+          @go-back-to-category="goBackToCategory"
         />
       </v-card>
     </v-card>
@@ -93,21 +105,22 @@ import { cafeService } from '@/api/cafe/CafeService'
 import commonMixin from '@/components/common/mixins/commonMixin'
 import { mapMutations } from 'vuex'
 import CafeDetailTopImages from '@/components/cafe/CafeDetailTopImages.vue'
-import CafeDetailCategory from '@/components/cafe/CafeDetailCategory.vue'
+import CafeDetailMenuSection from '@/components/cafe/CafeDetailMenuSection.vue'
 
 export default {
   name: 'CafeDetail',
   components: {
     CafeDetailTopImages,
-    CafeDetailCategory
+    CafeDetailMenuSection
   },
   mixins: [commonMixin],
   data() {
     return {
-      cardDetailWidth: 1000,
+      cardDetailWidth: 900,
       isLoaded: false,
       cafeDetail: null,
-      isCategorySelected: false
+      isCategorySelected: false,
+      selectedCategory: null
     }
   },
   async created() {
@@ -128,8 +141,13 @@ export default {
       'turnOnLoading',
       'turnOffLoading'
     ]),
-    moveToCategoryDirectly(categoryIndex) {
-      this.$refs.cafeDetailCategory.moveToCategoryDirectly(categoryIndex)
+    selectCategory(category) {
+      this.selectedCategory = category
+      this.isCategorySelected = true  // open CafeMenuSection component
+    },
+    goBackToCategory() {
+      this.isCategorySelected = false  // open CafeCategorySection component
+      this.selectedCategory = null
     }
   }
 }
