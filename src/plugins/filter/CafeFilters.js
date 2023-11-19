@@ -2,9 +2,12 @@ export function cafeNameWhiteSpace(cafeName) {
   return cafeName.replaceAll('-', ' ')
 }
 
-
 const WON = '원'
 export function currencyKOR(money) {
+  if (!money) {
+    return null
+  }
+
   const convertedMoneyStr = 
     money
       ?.toString()

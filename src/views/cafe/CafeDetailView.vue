@@ -42,59 +42,21 @@
       <v-divider class="py-2" />
 
       <v-card height="100%">
-        <v-row
-          v-if="!isCategorySelected"
-          align="center"
-          justify="start"
-          class="w-full mx-0 my-0 px-5 py-5"
-        >
-          <v-col
-            v-for="(category) in cafeDetail.cafeMenuCategories"
-            :key="`category_slide_${category.menuCategoryId}`"
-            sm="6"
-            md="4"
-            lg="3"
-            xl="3"
-            xxl="3"
-            cols="12"
-            class="px-4 py-4"
-          >
-            <v-hover v-slot="{ isHovering, props }">
-              <v-card 
-                width="160"
-                :elevation="isHovering ? 12 : 2"
-                hover
-                class="mx-auto"
-                :class="{ 'on-hover': isHovering }"
-                v-bind="props"
-                @click="selectCategory(category)"
-              >
-                <v-img 
-                  :src="!isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
-                  :lazy-src="isHovering ? 'https://cdn.vuetifyjs.com/images/cards/foster.jpg' : ''"
-                  aspect-ratio="1"
-                  cover
-                  :class="isHovering ? 'align-center' : 'align-end'"
-                >
-                  <div class="text-white">
-                    <v-card-title>
-                      {{ category.name }}
-                    </v-card-title>
-
-                    <v-card-text v-show="isHovering">
-                      {{ category.description }}
-                    </v-card-text>
-                  </div>
-                </v-img>
-              </v-card>
-            </v-hover>
-          </v-col>
-        </v-row>
-
+        <CafeDetailCateogrySection 
+          v-if="selectStep === 0"
+          :categories="cafeDetail.cafeMenuCategories"
+          @select-category="selectCategory"
+        />
         <CafeDetailMenuSection
-          v-else
+          v-else-if="selectStep === 1"
           :category="selectedCategory"
           @go-back-to-category="goBackToCategory"
+          @select-menu="selectMenu"
+        />
+        <CafeDetailOptionSection 
+          v-else
+          :cafe-menu="selectedMenu"
+          @go-back-to-menu="goBackToMenu"
         />
       </v-card>
     </v-card>
@@ -108,33 +70,48 @@ import { useRoute } from 'vue-router'
 import { cafeService } from '@/api/cafe/CafeService'
 import useCommonSetup from '@/components/common/useCommonSetup'
 import CafeDetailTopImages from '@/components/cafe/CafeDetailTopImages.vue'
+import CafeDetailCateogrySection from '@/components/cafe/CafeDetailCateogrySection.vue'
 import CafeDetailMenuSection from '@/components/cafe/CafeDetailMenuSection.vue'
+import CafeDetailOptionSection from '@/components/cafe/CafeDetailOptionSection.vue'
 
 const { handleError } = useCommonSetup()
 
-const isLoaded = ref(false)
-const cafeDetail = ref(null)
-const isCategorySelected = ref(false)
-const selectedCategory = ref(null)
-
 const route = useRoute()
 const store = useStore()
+
+const isLoaded = ref(false)
+const cafeDetail = ref(null)
+const selectStep = ref(0)
+const selectedCategory = ref(null)
+const selectedMenu = ref(null)
+
 const turnOnLoading = () => store.commit('common/turnOnLoading')
 const turnOffLoading = () => store.commit('common/turnOffLoading')
 
 const selectCategory = (category) => {
   selectedCategory.value = category
-  isCategorySelected.value = true  // open CafeMenuSection component
+  selectStep.value++  // open CafeMenuSection component
+}
+
+const selectMenu = (cafeMenu) => {
+  console.log(cafeMenu)
+  selectedMenu.value = cafeMenu
+  selectStep.value++
 }
 
 const goBackToCategory = () => {
-  isCategorySelected.value = false  // open CafeCategorySection component
+  selectStep.value--  // open CafeCategorySection component
   selectedCategory.value = null
+}
+
+const goBackToMenu = () => {
+  selectStep.value--
+  selectedMenu.value = null
 }
 
 const init = async () => {
   turnOnLoading()
-      
+
   try {
     const response = await cafeService.getCafeDetail(route.params.cafe_name)
     cafeDetail.value = response.data
@@ -147,8 +124,9 @@ const init = async () => {
 }
 
 init()
+
+// TODO 한 페이지 category 개수에 따라 pagination(prev, next) 기능 구현
 </script>
 
 <style>
-
 </style>

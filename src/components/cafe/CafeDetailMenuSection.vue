@@ -3,11 +3,11 @@
     <v-toolbar color="white">
       <v-btn icon="mdi-arrow-left" @click="$emit('goBackToCategory')" />
       <v-toolbar-title>
-        {{ category.name }}
+        {{ category?.name }}
       </v-toolbar-title>
       <template #extension>
         <div class="mx-9">
-          {{ category.description }}
+          {{ category?.description }}
         </div>
       </template>
     </v-toolbar>
@@ -17,14 +17,9 @@
       class="w-full mx-0 my-0 px-5 py-5"
     >
       <v-col
-        v-for="menu in category.cafeMenus"
+        v-for="menu in category?.cafeMenus ?? []"
         :key="`menu_${menu.cafeMenuId}`"
-        sm="6"
-        md="4"
-        lg="3"
-        xl="3"
-        xxl="3"
-        cols="12"
+        :cols="categoryColSize"
         class="px-4 py-4"
       >
         <v-card
@@ -32,6 +27,7 @@
           hover
           class="mx-auto"
           width="160"
+          @click="$emit('selectMenu', menu)"
         >
           <v-img 
             src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
@@ -52,6 +48,10 @@
 </template>
 
 <script setup>
+import useCafeDetailSetup from '@/components/cafe/useCafeDetailSetup'
+
+const { categoryColSize } = useCafeDetailSetup()
+
 defineProps({
   category: {
     type: Object,
@@ -60,7 +60,7 @@ defineProps({
   }
 })
 
-defineEmits(['goBackToCategory'])
+defineEmits(['goBackToCategory', 'selectMenu'])
 </script>
 
 <style lang="scss" scoped>
