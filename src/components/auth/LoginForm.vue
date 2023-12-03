@@ -51,7 +51,6 @@ export default {
     async signin() {
       try {
         const data = await this.authenticate()
-        console.log(data.accessToken)
         authToken.updateAccessToken(data.accessToken)
 
         // TODO 상황에 따라 해당 페이지로 이동
